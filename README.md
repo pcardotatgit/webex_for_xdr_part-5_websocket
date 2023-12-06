@@ -1,6 +1,6 @@
 # Websockets Webex Bot
 
-This project was largely inspired from the following resources.
+This project was largely inspired by the following resources.
 
 https://0x2142.com/how-to-building-a-basic-webex-chatbot/
 
@@ -8,17 +8,19 @@ https://0x2142.com/webex-chatbot-with-adaptivecards/
 
 Big Thank's to the author ! 
 
-It about another way to built a python Webex Bot. Instead of using webhooks we use Websockets which are supported by webex.
+It is about another way to built a python Webex Bot. Instead of using webhooks we use Websockets which are supported by webex.
 
 The most important benefits of websockets  is that we don't need to expose our webex bot into the Internet thanks to NGROK or port forwaring on Internet firewalls. Which is Huge !!.
 
 Another benefits is the bot code is simpler than the code needed to handle webhooks.
 
+For these 2 reasons, this websocket technic must be for anyone who want to build a webex bot the first choice.
+
 # Installation
 
 ## Prerequisit
 
-You must have created a webex bot first. If your bot is located into your laptop then use **ngork** to make it available on the INTERNET.
+You must have created a webex bot first. 
 
 Have a look to the instructions here for that [Create a webex bot](https://github.com/pcardotatgit/Webex_Team_Chat_Bot_Python)
 
@@ -40,7 +42,7 @@ And here under for those of you who are familiar with Github.
 
 You must have a git client installed into your laptop. Then you can type the following command from a terminal console opened into your working directory.
 
-    git clone https://github.com/pcardotatgit/lab_simulator-001.git
+    git clone https://github.com/pcardotatgit/webex_for_xdr_part-5_websocket.git
 
 ## Step 3. Go to the code subfolder
 
@@ -106,7 +108,7 @@ This config file contains only 2 variables.
 
 Only the **BOT_ACCESS_TOKEN** variable is mandatory to have the bot work.
 
-The second variable **DESTINATION_ROOM_ID** is needed by the **4-send-advanced_dynamic_alert_message_to_room_example.py** script you might recognize if you went thru all chapter of this webex bot for XDR project.
+The second variable **DESTINATION_ROOM_ID** is optoinnal. It is needed by the **4-send-advanced_dynamic_alert_message_to_room_example.py** script you might recognize if you went thru all chapter of this webex bot for XDR project.
 
 **DESTINATION_ROOM_ID**  must be your Own Room ID !. It is needed by the **4-send-advanced_dynamic_alert_message_to_room_example.py** script for sending an example of alert formular into the room.
 
