@@ -3,6 +3,7 @@
 This project was largely inspired from the following resources.
 
 https://0x2142.com/how-to-building-a-basic-webex-chatbot/
+
 https://0x2142.com/webex-chatbot-with-adaptivecards/
 
 Big Thank's to the author ! 
