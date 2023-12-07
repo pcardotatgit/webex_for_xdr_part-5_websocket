@@ -190,7 +190,7 @@ Watch the bot console to troubleshoot and debug.
 
 Go to the next section
 
-under construction
+[webex_for_xdr_part-6_XDR_send_alert_workflow](https://github.com/pcardotatgit/webex_for_xdr_part-6_XDR_send_alert_workflow)
 
 Go to previous section 
 
