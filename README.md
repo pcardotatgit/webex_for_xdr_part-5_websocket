@@ -22,7 +22,7 @@ For these 2 reasons, this websocket technic must be for anyone who want to build
 
 You must have created a webex bot first. 
 
-Have a look to the instructions here for that [Create a webex bot](https://github.com/pcardotatgit/Webex_Team_Chat_Bot_Python)
+Have a look to the instructions here for that [Create a webex bot](https://github.com/pcardotatgit/Create_a_Webex_bot_for_XDR_Alerts)
 
 ## Step 1. Create a working directory
 
