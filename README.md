@@ -108,7 +108,7 @@ This config file contains only 2 variables.
 
 Only the **BOT_ACCESS_TOKEN** variable is mandatory to have the bot work.
 
-The second variable **DESTINATION_ROOM_ID** is optoinnal. It is needed by the **4-send-advanced_dynamic_alert_message_to_room_example.py** script you might recognize if you went thru all chapter of this webex bot for XDR project.
+The second variable **DESTINATION_ROOM_ID** is optionnal. It is needed by the **4-send-advanced_dynamic_alert_message_to_room_example.py** script you might recognize if you went thru all chapter of this webex bot for XDR project.
 
 **DESTINATION_ROOM_ID**  must be your Own Room ID !. It is needed by the **4-send-advanced_dynamic_alert_message_to_room_example.py** script for sending an example of alert formular into the room.
 
@@ -120,7 +120,7 @@ If you don't know you room id. you will be able to see it into the bot console w
     
 You should see the bot starting until you see the message : **Websocket Opened**
 
-At that point the bot is ready.
+At that point the bot is ready and waits for messages in the Webex room.
 
 The next step is now to go to webex client, contact the bot by it's mail and create a space with it. And then send messages to it.
 
@@ -136,29 +136,40 @@ You can try to send the following commands :
 The main script is the **run_bot.py** one. This is the script to run and this one use the others scripts as resources.
 
 The **alert_card.py** script manages the adptative card generation as we saw in the previous sections.
+
 The **engine.py** is the script which manages the commands to send to webex room and associated actions
 
 Here is here under how to add your own command :
 
-Step 1 edit the **engine.py script and add a new **cmd class** like the example bellow
+Step 1 edit the **engine.py** script and add a new **cmd class** like the example bellow :
+
+This example catch the message /check 192.168.100.45   ( or any other IP address ).
+By default Space is used as a separator between command keyword and the passed message.
+
+In our case the command keyword is **/check** and the message is all the rest ( actually one IP address 192.168.100.45 ). Separate parsing must be done if you pass into the message several variables.
 
     class cmdXXX(Command):
         def __init__(self):
             super().__init__(
-                command_keyword="alert",
-                help_message="Ask Service to XDR",
+                command_keyword="/check",
+                help_message="Trigger an XDR worfklow thanks to its webhook",
                 card=None,
             )
 
         def execute(self, message, attachment_actions, activity):
-            alert_message="Suspicious Activity Detected"
-            cards_content=create_card_content(alert_message) # result is actually a list that contain one item which is a dictionnary
-            response = Response() 
-            response.text = "XDR Alert !"
-            # Attachments being sent to user
-            response.attachments = cards_content[0]
-            return response
-
+            message=message.strip() #remove any left and right spaces . Then message contains a clean IP address
+            print()
+            print('host on which to check : ',message)
+            print()
+            # Ok let's prepare a Webhook call to XDR.  XDR webhook was stored prior into the conf.XDR_WEBHOOK variable
+            headers = {'Content-Type':'application/json', 'Accept':'application/json'}
+            post_data = { "IP": message }
+            response = requests.post(conf.XDR_WEBHOOK, headers=headers,json=post_data)
+            print(response)   # check HTTP error status to check if Webhook was accepted by XDR     
+            return f"OK XDR workflow triggered for host : {message}...Waiting for reply... "   # Confirm in Webex Room that we executed the action
+            
+In this example above we send a message to the webex room that triggers an XDR workflow and pass an IP address to it.
+            
 Replace XXX by a new number if you follow my own logic
 
 In the **def __init__(self):**  function declare the command string you want to track
@@ -167,9 +178,20 @@ In the **def __init__(self):**  function declare the command string you want to 
 
 The **def execute(self, message, attachment_actions, activity):**   will be automatically launched if the string command above was sent to the bot. This is the location to insert all code instructions that must be executed.
 
-This function ends with a **return** statement which will be a message to send into the webex room. It can be either a text, or an adpative card like as the example above.
+This function ends with a **return** statement which will be a message to send into the webex room. It can be either a text, or an adpative card.
 
-Step 2 add the command to the bot
+Here under an example of code for sending an adaptive card
+
+        def execute(self, message, attachment_actions, activity):
+            alert_message="Suspicious Activity Detected"
+            cards_content=create_card_content(alert_message) # call a function that create the adaptive card
+            response = Response()
+            response.text = "XDR Alert !"
+            # Attachments being sent to user
+            response.attachments = cards_content[0]
+            return response
+
+Step 2 add the command management to the bot
 
 Edit the **run_bot.py** script and add the **cmdXXX** into the import section :
 
